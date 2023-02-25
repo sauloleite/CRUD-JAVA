@@ -15,7 +15,7 @@ public class ConexaoDAO { //
         //Tentativa e excessão 
         try {
             String url = "jdbc:mysql://localhost:3306/bancoteste?user=root&passwprd="; //URL utilizada para conexão
-            conn = DriverManager.getConnection(url); // Armazeando na variável todaa informação da URL
+            conn = DriverManager.getConnection(url); // Armazeando na variável toda a informação da URL
         } catch (SQLException erro) {
             JOptionPane.showMessageDialog(null, "ConexaoDAO" + erro.getLocalizedMessage()); //Messagem de erro
         }
