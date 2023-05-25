@@ -35,8 +35,8 @@ public class frmLoginVIEW extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         txtNomeUsuario = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        txtSenhaUsuario = new javax.swing.JTextField();
         btnEntrarSistema = new javax.swing.JButton();
+        txtSenhaUsuario = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -50,16 +50,16 @@ public class frmLoginVIEW extends javax.swing.JFrame {
 
         jLabel2.setText("Senha de usuário:");
 
-        txtSenhaUsuario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtSenhaUsuarioActionPerformed(evt);
-            }
-        });
-
         btnEntrarSistema.setText("Entrar no sistema");
         btnEntrarSistema.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEntrarSistemaActionPerformed(evt);
+            }
+        });
+
+        txtSenhaUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSenhaUsuarioActionPerformed(evt);
             }
         });
 
@@ -73,8 +73,8 @@ public class frmLoginVIEW extends javax.swing.JFrame {
                     .addComponent(btnEntrarSistema)
                     .addComponent(jLabel2)
                     .addComponent(jLabel1)
-                    .addComponent(txtNomeUsuario)
-                    .addComponent(txtSenhaUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE))
+                    .addComponent(txtNomeUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)
+                    .addComponent(txtSenhaUsuario))
                 .addContainerGap(114, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -86,9 +86,9 @@ public class frmLoginVIEW extends javax.swing.JFrame {
                 .addComponent(txtNomeUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33)
                 .addComponent(jLabel2)
-                .addGap(28, 28, 28)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
                 .addComponent(txtSenhaUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                .addGap(32, 32, 32)
                 .addComponent(btnEntrarSistema)
                 .addGap(40, 40, 40))
         );
@@ -100,41 +100,13 @@ public class frmLoginVIEW extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNomeUsuarioActionPerformed
 
+    private void btnEntrarSistemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarSistemaActionPerformed
+        logar();      
+    }//GEN-LAST:event_btnEntrarSistemaActionPerformed
+
     private void txtSenhaUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSenhaUsuarioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtSenhaUsuarioActionPerformed
-
-    private void btnEntrarSistemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarSistemaActionPerformed
-        try {
-            String nome_usuario, senha_usuario;
-            //Criando variáveis para recever usuario e senha
-            nome_usuario = txtNomeUsuario.getText(); 
-            senha_usuario = txtSenhaUsuario.getText();
-            //Pegando dados de usuário e senha
-            UsuarioDTO objUsuarioDTO = new UsuarioDTO();
-            objUsuarioDTO.setNome_usuario(nome_usuario);
-            objUsuarioDTO.setSenha_usuario(senha_usuario);
-            
-            UsuarioDAO objUsuarioDAO = new UsuarioDAO(); // Instanciando a classe UsuarioDAO
-            
-            ResultSet rsUsuarioDAO = objUsuarioDAO.autenticacaoUsuario(objUsuarioDTO); // Salvando os dados pegos no banco de dados em rs
-            
-            if (rsUsuarioDAO.next()) {
-                //Chamar tela que eu quero abrir
-                frmPrincipalVIEW objFrmPrincipalView = new frmPrincipalVIEW(); //Intânciando a classe frmPrincipalVIEW 
-                objFrmPrincipalView.setVisible(true); //Definindo a tela visivel
-                
-                dispose(); //Fecha a tela aberta
-                
-            } else {
-                //Enviar mensagem dizendo "incorrero".
-                JOptionPane.showMessageDialog(null, "Usuário ou senha incorreta");
-            }
-            
-        } catch (SQLException erro) {
-            JOptionPane.showMessageDialog(null, "FRMLOGINVIEW" + erro);
-        }      
-    }//GEN-LAST:event_btnEntrarSistemaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -170,12 +142,44 @@ public class frmLoginVIEW extends javax.swing.JFrame {
             }
         });
     }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEntrarSistema;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JTextField txtNomeUsuario;
-    private javax.swing.JTextField txtSenhaUsuario;
+    private javax.swing.JPasswordField txtSenhaUsuario;
     // End of variables declaration//GEN-END:variables
+    private void logar(){
+        try {
+            String nome_usuario, senha_usuario;
+            //Criando variáveis para recever usuario e senha
+            nome_usuario = txtNomeUsuario.getText(); 
+            senha_usuario = txtSenhaUsuario.getText();
+            //Pegando dados de usuário e senha
+            UsuarioDTO objUsuarioDTO = new UsuarioDTO();
+            objUsuarioDTO.setNome_usuario(nome_usuario);
+            objUsuarioDTO.setSenha_usuario(senha_usuario);
+            
+            UsuarioDAO objUsuarioDAO = new UsuarioDAO(); // Instanciando a classe UsuarioDAO
+            
+            ResultSet rsUsuarioDAO = objUsuarioDAO.autenticacaoUsuario(objUsuarioDTO); // Salvando os dados pegos no banco de dados em rs
+            
+            if (rsUsuarioDAO.next()) {
+                //Chamar tela que eu quero abrir
+                frmPrincipalVIEW objFrmPrincipalView = new frmPrincipalVIEW(); //Intânciando a classe frmPrincipalVIEW 
+                objFrmPrincipalView.setVisible(true); //Definindo a tela visivel
+                
+                dispose(); //Fecha a tela aberta
+                
+            } else {
+                //Enviar mensagem dizendo "incorrero".
+                JOptionPane.showMessageDialog(null, "Usuário ou senha incorreta");
+            }
+            
+        } catch (SQLException erro) {
+            JOptionPane.showMessageDialog(null, "FRMLOGINVIEW" + erro);
+        }      
+    }                       
 }
