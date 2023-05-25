@@ -4,6 +4,12 @@
  */
 package VIEW;
 
+import DAO.UsuarioDAO;
+import DTO.UsuarioDTO;
+import java.sql.SQLException;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author sauloleite
@@ -99,7 +105,35 @@ public class frmLoginVIEW extends javax.swing.JFrame {
     }//GEN-LAST:event_txtSenhaUsuarioActionPerformed
 
     private void btnEntrarSistemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarSistemaActionPerformed
-        // TODO add your handling code here:
+        try {
+            String nome_usuario, senha_usuario;
+            //Criando variáveis para recever usuario e senha
+            nome_usuario = txtNomeUsuario.getText(); 
+            senha_usuario = txtSenhaUsuario.getText();
+            //Pegando dados de usuário e senha
+            UsuarioDTO objUsuarioDTO = new UsuarioDTO();
+            objUsuarioDTO.setNome_usuario(nome_usuario);
+            objUsuarioDTO.setSenha_usuario(senha_usuario);
+            
+            UsuarioDAO objUsuarioDAO = new UsuarioDAO(); // Instanciando a classe UsuarioDAO
+            
+            ResultSet rsUsuarioDAO = objUsuarioDAO.autenticacaoUsuario(objUsuarioDTO); // Salvando os dados pegos no banco de dados em rs
+            
+            if (rsUsuarioDAO.next()) {
+                //Chamar tela que eu quero abrir
+                frmPrincipalVIEW objFrmPrincipalView = new frmPrincipalVIEW(); //Intânciando a classe frmPrincipalVIEW 
+                objFrmPrincipalView.setVisible(true); //Definindo a tela visivel
+                
+                dispose(); //Fecha a tela aberta
+                
+            } else {
+                //Enviar mensagem dizendo "incorrero".
+                JOptionPane.showMessageDialog(null, "Usuário ou senha incorreta");
+            }
+            
+        } catch (SQLException erro) {
+            JOptionPane.showMessageDialog(null, "FRMLOGINVIEW" + erro);
+        }      
     }//GEN-LAST:event_btnEntrarSistemaActionPerformed
 
     /**
